@@ -15,9 +15,26 @@ const generateRoutes = require('./routes/generate');
 
 const app = express();
 const server = createServer(app);
+// const io = new Server(server, {
+//   cors: {
+//     origin: process.env.NODE_ENV === 'production' ? false : ['http://localhost:5173'],
+//     methods: ['GET', 'POST']
+//   }
+// });
+
+// Security middleware
+// app.use(helmet());
+// app.use(cors({
+//   origin: process.env.NODE_ENV === 'production' ? false : ['http://localhost:5173'],
+//   credentials: true
+// }));
+
+
 const io = new Server(server, {
   cors: {
-    origin: process.env.NODE_ENV === 'production' ? false : ['http://localhost:5173'],
+    origin: process.env.NODE_ENV === 'production'
+      ? [process.env.FRONTEND_URL || 'https://your-frontend-url.onrender.com']
+      : ['http://localhost:5173'],
     methods: ['GET', 'POST']
   }
 });
@@ -25,7 +42,9 @@ const io = new Server(server, {
 // Security middleware
 app.use(helmet());
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' ? false : ['http://localhost:5173'],
+  origin: process.env.NODE_ENV === 'production'
+    ? [process.env.FRONTEND_URL || 'https://your-frontend-url.onrender.com']
+    : ['http://localhost:5173'],
   credentials: true
 }));
 
@@ -34,8 +53,8 @@ const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100 // limit each IP to 100 requests per windowMs
 });
-app.use(limiter);
 
+app.use(limiter);
 // Body parsing middleware
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
