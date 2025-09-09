@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_BASE_URL = `https://social-media-app-ckdl.onrender.com`;
+const API_BASE_URL = `https://social-media-app-ckdl.onrender.com/api`;
 
 export const api = axios.create({
   baseURL: API_BASE_URL,
