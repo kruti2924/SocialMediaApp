@@ -40,7 +40,8 @@ const io = new Server(server, {
 // Security middleware
 app.use(cors({
   origin: `https://social-media-app-3itg.vercel.app/`,
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST']
 }));
 app.use(helmet());
 
