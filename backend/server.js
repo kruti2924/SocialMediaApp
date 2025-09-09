@@ -38,12 +38,13 @@ const io = new Server(server, {
 });
 
 // Security middleware
-app.use(cors({
-  origin: `https://social-media-app-3itg.vercel.app/`,
-  credentials: true,
-  methods: ['GET', 'POST']
-}));
 app.use(helmet());
+app.use(cors({
+  origin: `*`,
+  // credentials: true,
+  // methods: ['GET', 'POST']
+}));
+
 
 
 // Rate limiting
